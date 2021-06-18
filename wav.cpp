@@ -55,6 +55,8 @@ int main() {
         wav << subchunk2_id;
         wav << subchunk2_size;
 
+        int start_audio = wav.tellp();
+
         for(int i = 0; i < sample_rate * duration; i++) {
             // Respect max amplidude
             // operate as a wave
@@ -66,11 +68,18 @@ int main() {
 
             write_as_bytes(wav, channel1, 2);
             write_as_bytes(wav, channel2, 2);
-
-            
-
         }
+
+        int end_audio = wav.tellp();
+
+        // going back and writing over something
+        wav.seekp(start_audio - 4);
+        write_as_bytes(wav, end_audio - start_audio, 4);
+
+        wav.seekp(4, ios::beg);
+        write_as_bytes(wav, end_audio - 8, 4);
     }
 
+    wav.close();
     return 0;
 }
