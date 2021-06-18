@@ -63,7 +63,7 @@ int main() {
             double amplitude = (double)i / sample_rate * max_amplitude;
             double value = sin((2 * 3.14 * i * frequency) / sample_rate);
 
-            double channel1 = amplitude * value;
+            double channel1 = amplitude * value / 2;
             double channel2 = (max_amplitude - amplitude) * value;
 
             write_as_bytes(wav, channel1, 2);

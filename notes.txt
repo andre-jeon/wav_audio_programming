@@ -1,0 +1,7 @@
+** Notice how this example did not contain a class data structure. There will be no requirement to use classes for this mini lab. You have the choice to if you want to, but it would be overkill since we are applying simple filters**
+
+1. Your program will need 5 sounds. The sounds do not need to be beautiful, but they need to be different. Examples would be adjusting different channels (one starting high and one starting low and then changing at the same time or different time). Adjusting frequency levels for different pitch soundings, etc.
+
+2. Each audio needs it own function.
+
+3. The user should be able to interact with your program by entering in the name of the audio to be created, or if you want to get advanced you can sk the user to supply certain values that would change the audio(that would still be considered one sound for grading purposes).
