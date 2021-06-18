@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
@@ -26,6 +27,10 @@ void write_as_bytes(ofstream &file, int value, int byte_size) {
     file.write(reinterpret_cast<const char*>(&value), byte_size);   
 }
 
+const int duration = 2;
+const int max_amplitude = 32760;
+const double frequency = 250;
+
 
 int main() {
 
@@ -50,7 +55,31 @@ int main() {
         wav << subchunk2_id;
         wav << subchunk2_size;
 
+        int start_audio = wav.tellp();
+
+        for(int i = 0; i < sample_rate * duration; i++) {
+            // Respect max amplidude
+            // operate as a wave
+            double amplitude = (double)i / sample_rate * max_amplitude;
+            double value = sin((2 * 3.14 * i * frequency) / sample_rate);
+
+            double channel1 = amplitude * value;
+            double channel2 = (max_amplitude - amplitude) * value;
+
+            write_as_bytes(wav, channel1, 2);
+            write_as_bytes(wav, channel2, 2);
+        }
+
+        int end_audio = wav.tellp();
+
+        // going back and writing over something
+        wav.seekp(start_audio - 4);
+        write_as_bytes(wav, end_audio - start_audio, 4);
+
+        wav.seekp(4, ios::beg);
+        write_as_bytes(wav, end_audio - 8, 4);
     }
 
+    wav.close();
     return 0;
 }
